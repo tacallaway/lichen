@@ -1,0 +1,24 @@
+{
+  "name": "lichen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "seed.js",
+  "dependencies": {
+    "aws-sdk": "^2.616.0",
+    "line-reader": "^0.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tacallaway/lichen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tacallaway/lichen/issues"
+  },
+  "homepage": "https://github.com/tacallaway/lichen#readme"
+}
