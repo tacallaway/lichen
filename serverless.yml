@@ -1,0 +1,103 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: lichen
+
+plugins:
+  - serverless-dynamodb-local
+
+custom:
+  dynamodb:
+    stages:
+      - dev
+
+provider:
+  name: aws
+  profile: tyler
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  retentionPolicies:
+    dev: Delete
+    prod: Retain
+  retentionPolicy: ${self:provider.retentionPolicies.${self:provider.stage}}
+  region: us-west-2
+  environment:
+    SITE_INVENTORIES: SiteInventories
+    EA_DATA: EAData
+    LAMBDA_REGION: ${self:provider.region}
+    RUN_LOCAL: true
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.SITE_INVENTORIES}"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.EA_DATA}"
+
+functions:
+  getSites:
+    handler: src/handlers/sites.get
+    timeout: 10
+    events:
+      - http:
+          path: sites
+          method: get
+
+resources:
+  Resources:
+    SiteInventoriesTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: ${self:provider.retentionPolicy}
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: SiteCode
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: SiteCode
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: ${self:provider.environment.SITE_INVENTORIES}
+    EADataTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: ${self:provider.retentionPolicy}
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: Id
+            AttributeType: S
+          - AttributeName: SiteCode
+            AttributeType: S
+        KeySchema:
+          - AttributeName: Id
+            KeyType: HASH
+          - AttributeName: SiteCode
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: ${self:provider.environment.EA_DATA}

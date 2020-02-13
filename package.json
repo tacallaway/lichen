@@ -7,9 +7,12 @@
     "aws-sdk": "^2.616.0",
     "line-reader": "^0.4.0"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "serverless deploy",
+    "install-dynamodb-local": "serverless dynamodb install",
+    "start-dynamodb-local": "serverless dynamodb start --migrate",
+    "load-data-local": "RUN_LOCAL=true node data-loader.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/tacallaway/lichen/issues"
   },
-  "homepage": "https://github.com/tacallaway/lichen#readme"
+  "homepage": "https://github.com/tacallaway/lichen#readme",
+  "devDependencies": {
+    "serverless": "^1.66.0",
+    "serverless-dynamodb-local": "^0.2.39"
+  }
 }
