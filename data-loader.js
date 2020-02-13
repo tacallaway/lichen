@@ -5,7 +5,7 @@ const lineReader = require("line-reader");
 
 // load site inventories
 lineReader.eachLine("data/site_inventories_FINALDATA_21March2019.csv", function(line) {
-  let [siteCode, siteCode2, ecoRegion3, ecoRegion4] = line.split(",");
+  let [siteCode, siteCode2, ecoRegion3, ecoRegion4, source, country, state, county, USNF_NRA_NP, wildernessArea, detailedLocalityData, lat, long, elevation, collectionDate, collectors, speciesInventory, elementalAnalysis, notes] = line.split(",");
 
   let params = {
     Item: {
@@ -20,6 +20,51 @@ lineReader.eachLine("data/site_inventories_FINALDATA_21March2019.csv", function(
       },
       EcoRegion4: {
         S: ecoRegion4
+      },
+      Source: {
+        S: source
+      },
+      Country: {
+        S: country
+      },
+      State: {
+        S: state
+      },
+      County: {
+        S: county
+      },
+      USNF_NRA_NP: {
+        S: USNF_NRA_NP
+      },
+      WildernessArea: {
+        S: wildernessArea
+      },
+      DetailedLocalityData: {
+        S: detailedLocalityData
+      },
+      Lat: {
+        S: lat
+      },
+      Long: {
+        S: long
+      },
+      Elevation: {
+        S: elevation
+      },
+      CollectionDate: {
+        S: collectionDate
+      },
+      Collectors: {
+        S: collectors
+      },
+      SpeciesInventory: {
+        S: speciesInventory
+      },
+      ElementalAnalysis: {
+        S: elementalAnalysis
+      },
+      Notes: {
+        S: notes
       }
     },
     ReturnConsumedCapacity: "TOTAL",
@@ -30,7 +75,7 @@ lineReader.eachLine("data/site_inventories_FINALDATA_21March2019.csv", function(
     if (err) {
       console.log(err, err.stack);
     } else {
-      console.log(`${SiteCode} added`);
+      console.log(`${siteCode} added`);
     }
   });
 });
