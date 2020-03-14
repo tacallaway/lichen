@@ -14,31 +14,44 @@ async function getSites(event, context, callback) {
   };
 
   try {
-    const params = {
-      TableName: process.env.SITE_INVENTORIES,
-      KeyConditionExpression: "#SiteCode = :code",
-      ExpressionAttributeNames:{
-          "#SiteCode": "SiteCode"
-      },
-      ExpressionAttributeValues: {
-          ":code": "SCNF_25"
-      }
-    };
+    const siteCode = event['queryStringParameters'] && event['queryStringParameters']['SiteCode'];
 
-    console.log('About to read database');
-    const data = await db.query(params);
-    console.log(data);
-    callback(null, {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({response: data.Items[0].Test })
-    });
+    if (siteCode) {
+      const params = {
+        TableName: process.env.SITE_INVENTORIES,
+        KeyConditionExpression: "#SiteCode = :code",
+        ExpressionAttributeNames:{
+            "#SiteCode": "SiteCode"
+        },
+        ExpressionAttributeValues: {
+            ":code": siteCode
+        }
+      };
+
+      const data = await db.query(params);
+      callback(null, {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({response: data.Items[0].SiteCode })
+      });
+    } else {
+      const params = {
+        TableName: process.env.SITE_INVENTORIES
+      };
+
+      const data = await db.scan(params);
+      callback(null, {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({response: data.Items[0].SiteCode })
+      });
+    }
   } catch (error) {
-    console.log('Error in addUser(): ', error);
+    console.log('Error in getSites(): ', error);
     callback(null, {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ message: `Error adding user` })
+      body: JSON.stringify({ message: `Error getting sites` })
     });
   }
 }
