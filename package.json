@@ -12,6 +12,7 @@
     "deploy": "serverless deploy",
     "install-dynamodb-local": "serverless dynamodb install",
     "start-dynamodb-local": "serverless dynamodb start --migrate",
+    "start-gateway-local": "serverless offline",
     "load-data-local": "RUN_LOCAL=true node data-loader.js"
   },
   "repository": {
@@ -26,6 +27,7 @@
   "homepage": "https://github.com/tacallaway/lichen#readme",
   "devDependencies": {
     "serverless": "^1.66.0",
-    "serverless-dynamodb-local": "^0.2.39"
+    "serverless-dynamodb-local": "^0.2.39",
+    "serverless-offline": "^5.12.1"
   }
 }

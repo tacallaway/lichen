@@ -32,7 +32,7 @@ async function getSites(event, context, callback) {
       callback(null, {
         statusCode: 200,
         headers,
-        body: JSON.stringify({response: data.Items[0].SiteCode })
+        body: JSON.stringify({response: data.Items })
       });
     } else {
       const params = {
@@ -43,7 +43,7 @@ async function getSites(event, context, callback) {
       callback(null, {
         statusCode: 200,
         headers,
-        body: JSON.stringify({response: data.Items[0].SiteCode })
+        body: JSON.stringify({response: data.Items })
       });
     }
   } catch (error) {
