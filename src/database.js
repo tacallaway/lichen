@@ -3,11 +3,15 @@
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
 
 const config = {};
-if (process.env.RUN_LOCAL) {
+if (process.env.RUN_LOCAL === "true") {
+  require('dotenv').config();
+
   config.region = 'localhost';
   config.endpoint = 'http://localhost:8000';
-  config.accessKeyId = 'AKIAZCTEU7SNDWFP33PB';
-  config.secretAccessKey = '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';
+  config.accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+  config.secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+} else {
+  config.region = process.env.LAMBDA_REGION;
 }
 const dynamoDb = new AWS.DynamoDB.DocumentClient(config);
 

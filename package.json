@@ -5,6 +5,7 @@
   "main": "seed.js",
   "dependencies": {
     "aws-sdk": "^2.616.0",
+    "dotenv": "^8.2.0",
     "line-reader": "^0.4.0"
   },
   "scripts": {
@@ -16,7 +17,8 @@
     "start-gateway-local-debug": "node --inspect ./node_modules/.bin/sls offline",
     "start-local": "concurrently \"yarn start-dynamodb-local\" \"yarn start-gateway-local\"",
     "start-local-debug": "concurrently \"yarn start-dynamodb-local\" \"yarn start-gateway-local-debug\"",
-    "load-data-local": "RUN_LOCAL=true node data-loader.js"
+    "load-data-local": "RUN_LOCAL=true node data-loader.js",
+    "load-data-server": "LAMBDA_REGION=us-west-2 node data-loader.js"
   },
   "repository": {
     "type": "git",

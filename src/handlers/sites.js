@@ -9,7 +9,7 @@ module.exports = {
 async function getSites(event, context, callback) {
   console.log('Method called: getSites');
 
-  var headers = {
+  const headers = {
     'Content-Type': 'application/json'
   };
 
@@ -26,29 +26,35 @@ async function getSites(event, context, callback) {
       };
 
       const data = await db.query(params);
-      callback(null, {
+      return {
         statusCode: 200,
         headers,
-        body: JSON.stringify({response: data.Items })
-      });
+        body: JSON.stringify({data: data.Items })
+      };
     } else {
       const params = {
         TableName: process.env.SITE_INVENTORIES
       };
 
+      const latLngOnly = event['queryStringParameters'] && event['queryStringParameters']['LatLngOnly'];
+      if (latLngOnly === 'true') {
+        params.ProjectionExpression = 'SiteCode, Lat, Lng'
+      };
+
       const data = await db.scan(params);
-      callback(null, {
+
+      return {
         statusCode: 200,
         headers,
-        body: JSON.stringify({response: data.Items })
-      });
+        body: JSON.stringify({data: data.Items })
+      };
     }
   } catch (error) {
     console.log('Error in getSites(): ', error);
-    callback(null, {
+    return {
       statusCode: 500,
       headers,
       body: JSON.stringify({ message: `Error getting sites` })
-    });
+    };
   }
 }

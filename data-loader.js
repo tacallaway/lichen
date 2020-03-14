@@ -4,41 +4,43 @@ const lineReader = require("line-reader");
 const config = {
   convertEmptyValues: true //convert empty strings to null
 };
-if (process.env.RUN_LOCAL) {
+if (process.env.RUN_LOCAL === "true") {
+  require('dotenv').config();
+
   config.region = 'localhost';
   config.endpoint = 'http://localhost:8000';
-  config.accessKeyId = 'AKIAZCTEU7SNDWFP33PB';
-  config.secretAccessKey = '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';
+  config.accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+  config.secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 } else {
-  config.region = "us-west-2";
+  config.region = process.env.LAMBDA_REGION;
 }
-var documentClient = new AWS.DynamoDB.DocumentClient(config);
+const documentClient = new AWS.DynamoDB.DocumentClient(config);
 
 // LOAD SITE INVENTORIES
 lineReader.eachLine("data/site_inventories_FINALDATA_21March2019.txt", function(line) {
-  let [SiteCode, SiteCode2, EcoRegion3, EcoRegion4, Source, Country, State, County, USNF_NRA_NP, WildernessArea, DetailedLocalityData, Lat, Long, Elevation, CollectionDate, Collectors, SpeciesInventory, ElementalAnalysis, Notes] = line.split("\t");
+  let [SiteCode, SiteCode2, EcoRegion3, EcoRegion4, Source, Country, State, County, USNF_NRA_NP, WildernessArea, DetailedLocalityData, Lat, Lng, Elevation, CollectionDate, Collectors, SpeciesInventory, ElementalAnalysis, Notes] = line.split("\t");
 
   let params = {
     Item: {
       SiteCode,
-      siteCode2: SiteCode2,
-      ecoRegion3: EcoRegion3,
-      ecoRegion4: EcoRegion4,
-      source: Source,
-      country: Country,
-      state: State,
-      county: County,
+      SiteCode2,
+      EcoRegion3,
+      EcoRegion4,
+      Source,
+      Country,
+      State,
+      County,
       USNF_NRA_NP,
-      wildernessArea: WildernessArea,
-      detailedLocalityData: DetailedLocalityData,
-      lat: Lat,
-      long: Long,
-      elevation: Elevation,
-      collectionDate: CollectionDate,
-      collectors: Collectors,
-      speciesInventory: SpeciesInventory,
-      elementalAnalysis: ElementalAnalysis,
-      notes: Notes || " "
+      WildernessArea,
+      DetailedLocalityData,
+      Lat,
+      Lng,
+      Elevation,
+      CollectionDate,
+      Collectors,
+      SpeciesInventory,
+      ElementalAnalysis,
+      Notes
     },
     ReturnConsumedCapacity: "TOTAL",
     TableName: "SiteInventories"

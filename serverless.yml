@@ -36,7 +36,7 @@ provider:
     SITE_INVENTORIES: SiteInventories
     EA_DATA: EAData
     LAMBDA_REGION: ${self:provider.region}
-    RUN_LOCAL: true
+    RUN_LOCAL: false
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -73,12 +73,10 @@ resources:
       DeletionPolicy: ${self:provider.retentionPolicy}
       Properties:
         AttributeDefinitions:
-          -
-            AttributeName: SiteCode
+          - AttributeName: SiteCode
             AttributeType: S
         KeySchema:
-          -
-            AttributeName: SiteCode
+          - AttributeName: SiteCode
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 5
