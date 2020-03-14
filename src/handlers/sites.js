@@ -19,10 +19,7 @@ async function getSites(event, context, callback) {
     if (siteCode) {
       const params = {
         TableName: process.env.SITE_INVENTORIES,
-        KeyConditionExpression: "#SiteCode = :code",
-        ExpressionAttributeNames:{
-            "#SiteCode": "SiteCode"
-        },
+        KeyConditionExpression: "SiteCode = :code",
         ExpressionAttributeValues: {
             ":code": siteCode
         }

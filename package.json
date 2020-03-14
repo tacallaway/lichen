@@ -9,11 +9,13 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "serverless deploy",
-    "install-dynamodb-local": "serverless dynamodb install",
-    "start-dynamodb-local": "serverless dynamodb start --migrate",
-    "start-gateway-local": "serverless offline",
+    "deploy": "sls deploy",
+    "install-dynamodb-local": "sls dynamodb install",
+    "start-dynamodb-local": "sls dynamodb start --migrate",
+    "start-gateway-local": "sls offline",
+    "start-gateway-local-debug": "node --inspect ./node_modules/.bin/sls offline",
     "start-local": "concurrently \"yarn start-dynamodb-local\" \"yarn start-gateway-local\"",
+    "start-local-debug": "concurrently \"yarn start-dynamodb-local\" \"yarn start-gateway-local-debug\"",
     "load-data-local": "RUN_LOCAL=true node data-loader.js"
   },
   "repository": {
