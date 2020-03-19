@@ -65,6 +65,7 @@ functions:
       - http:
           path: sites
           method: get
+          cors: true
 
 resources:
   Resources:

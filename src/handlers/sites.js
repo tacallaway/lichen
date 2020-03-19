@@ -10,7 +10,8 @@ async function getSites(event, context, callback) {
   console.log('Method called: getSites');
 
   const headers = {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
   };
 
   try {
