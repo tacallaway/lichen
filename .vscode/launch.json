@@ -16,10 +16,23 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Load Sites",
+      "name": "Load Sites Locally",
       "program": "${workspaceFolder}/data-loader.js",
       "env": {
         "RUN_LOCAL": "true"
+      },
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Load Sites Remote",
+      "program": "${workspaceFolder}/data-loader.js",
+      "env": {
+        "RUN_LOCAL": "false",
+        "LAMBDA_REGION": "us-west-2"
       },
       "skipFiles": [
         "<node_internals>/**"
@@ -32,6 +45,9 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
+      "env": {
+        "RUN_LOCAL": "true"
+      },
       "program": "${workspaceRoot}/node_modules/.bin/sls",
       "args": [
         "invoke",
@@ -40,6 +56,26 @@
         "getSites",
         "--data",
         "{}"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run getSite Function",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "env": {
+        "RUN_LOCAL": "true"
+      },
+      "program": "${workspaceRoot}/node_modules/.bin/sls",
+      "args": [
+        "invoke",
+        "local",
+        "-f",
+        "getSite",
+        "--data",
+        "{\"pathParameters\": {\"SiteCode\": \"ACCTP_1\"}}"
       ]
     }
   ]

@@ -1,16 +1,15 @@
 let AWS = require("aws-sdk");
 const lineReader = require("line-reader");
 
+require('dotenv').config();
 const config = {
-  convertEmptyValues: true //convert empty strings to null
+  convertEmptyValues: true, //convert empty strings to null
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 };
 if (process.env.RUN_LOCAL === "true") {
-  require('dotenv').config();
-
   config.region = 'localhost';
   config.endpoint = 'http://localhost:8000';
-  config.accessKeyId = process.env.AWS_ACCESS_KEY_ID;
-  config.secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 } else {
   config.region = process.env.LAMBDA_REGION;
 }
@@ -63,8 +62,9 @@ lineReader.eachLine("data/EA_data_half_loc.txt", function(line, last) {
   let [Id, SiteCode, Sample, Species] = line.split("\t");
 
   let newSite = {
-    Sample: Sample,
-    Species: Species
+    Id,
+    Sample,
+    Species
   };
 
   if (sites[SiteCode]) {

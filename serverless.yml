@@ -36,7 +36,6 @@ provider:
     SITE_INVENTORIES: SiteInventories
     EA_DATA: EAData
     LAMBDA_REGION: ${self:provider.region}
-    RUN_LOCAL: false
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -66,6 +65,14 @@ functions:
           path: sites
           method: get
           cors: true
+  getSite:
+    handler: src/handlers/sites.get
+    timeout: 10
+    events:
+      - http:
+          path: sites/{SiteCode}
+          method: get
+          cors: true
 
 resources:
   Resources:
@@ -80,24 +87,20 @@ resources:
           - AttributeName: SiteCode
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 3
         TableName: ${self:provider.environment.SITE_INVENTORIES}
     EADataTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: ${self:provider.retentionPolicy}
       Properties:
         AttributeDefinitions:
-          - AttributeName: Id
-            AttributeType: S
           - AttributeName: SiteCode
             AttributeType: S
         KeySchema:
-          - AttributeName: Id
-            KeyType: HASH
           - AttributeName: SiteCode
-            KeyType: RANGE
+            KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 3
         TableName: ${self:provider.environment.EA_DATA}
