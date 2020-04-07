@@ -77,6 +77,26 @@
         "--data",
         "{\"pathParameters\": {\"SiteCode\": \"ACCTP_1\"}}"
       ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run getSites with EA Data Function",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "env": {
+        "RUN_LOCAL": "true"
+      },
+      "program": "${workspaceRoot}/node_modules/.bin/sls",
+      "args": [
+        "invoke",
+        "local",
+        "-f",
+        "getSites",
+        "--data",
+        "{\"pathParameters\": {\"IncludeEA\": true}}"
+      ]
     }
   ]
 }

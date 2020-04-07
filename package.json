@@ -11,6 +11,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "sls deploy",
+    "deploy-function": "sls deploy function -f getSites",
     "install-dynamodb-local": "sls dynamodb install",
     "start-dynamodb-local": "sls dynamodb start --migrate",
     "start-gateway-local": "sls offline",

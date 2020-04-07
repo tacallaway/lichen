@@ -50,6 +50,24 @@ async function getSites(event, context, callback) {
 
       const data = await db.scan(params);
 
+      const includeEAData = event['queryStringParameters'] && event['queryStringParameters']['IncludeEA'];
+
+      if (includeEAData) {
+        const promises = [];
+
+        data.Items.forEach(item => {
+          promises.push(db.query(buildParams(process.env.EA_DATA, item.SiteCode)));
+        });
+
+        await Promise.all(promises).then(result => {
+          result.forEach((item, index) => {
+            if (item.Count > 0) {
+              data.Items[index].EAData = item.Items[0].Data;
+            }
+          });
+        });
+      }
+
       return {
         statusCode: 200,
         headers,
