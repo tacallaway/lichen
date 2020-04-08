@@ -66,13 +66,19 @@ async function getSites(event, context, callback) {
             }
           });
         });
-      }
 
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({data: data.Items })
-      };
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({ data: data.Items })
+        };
+      } else {
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({ data: data.Items })
+        };
+      }
     }
   } catch (error) {
     console.log('Error in getSites(): ', error);
