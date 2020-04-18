@@ -19,7 +19,8 @@
     "start-local": "concurrently \"yarn start-dynamodb-local\" \"yarn start-gateway-local\"",
     "start-local-debug": "concurrently \"yarn start-dynamodb-local\" \"yarn start-gateway-local-debug\"",
     "load-data-local": "RUN_LOCAL=true node data-loader.js",
-    "load-data-server": "LAMBDA_REGION=us-west-2 node data-loader.js"
+    "load-data": "LAMBDA_REGION=us-west-2 node data-loader.js",
+    "load-data-default": "LAMBDA_REGION=us-west-2 node data-loader.js data/site_inventories_FINALDATA_21March2019.txt data/EA_data_half_loc.txt"
   },
   "repository": {
     "type": "git",

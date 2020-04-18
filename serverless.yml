@@ -59,7 +59,7 @@ provider:
 functions:
   getSites:
     handler: src/handlers/sites.get
-    timeout: 10
+    timeout: 60
     events:
       - http:
           path: sites
@@ -87,8 +87,8 @@ resources:
           - AttributeName: SiteCode
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 3
+          ReadCapacityUnits: 10
+          WriteCapacityUnits: 10
         TableName: ${self:provider.environment.SITE_INVENTORIES}
     EADataTable:
       Type: 'AWS::DynamoDB::Table'
@@ -101,6 +101,6 @@ resources:
           - AttributeName: SiteCode
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 3
+          ReadCapacityUnits: 10
+          WriteCapacityUnits: 10
         TableName: ${self:provider.environment.EA_DATA}
