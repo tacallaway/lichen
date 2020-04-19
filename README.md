@@ -51,7 +51,7 @@ npm run load-data
 Notice that if you don't provide the path to a site inventory and EA data file you'll get this response:
 
 ```
-Usage: npm run data-loader <site_inventory_file> <EA_data_file>
+Usage: npm run load-data <site_inventory_file> <EA_data_file>
 ```
 
 To complete the process, add the path to the site inventories and EA data files you'd like to load. Here's an example:
