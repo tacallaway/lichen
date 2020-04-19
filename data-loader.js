@@ -4,7 +4,7 @@ const lineReader = require("line-reader");
 const args = process.argv.slice(2);
 
 if (args < 2) {
-  console.log('Usage: npm run data-loader <site_inventory_file> <EA_data_file>');
+  console.log('Usage: npm run load-data <site_inventory_file> <EA_data_file>');
   return;
 }
 
